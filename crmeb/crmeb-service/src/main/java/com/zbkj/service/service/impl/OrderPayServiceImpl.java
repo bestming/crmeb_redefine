@@ -751,6 +751,10 @@ public class OrderPayServiceImpl implements OrderPayService {
             response.setStatus(yueBoolean);
             return response;
         }
+        if (storeOrder.getPayType().equals(PayConstants.PAY_TYPE_ALI_PAY)) {
+            response.setStatus(true);
+            return response;
+        }
         if (storeOrder.getPayType().equals(PayConstants.PAY_TYPE_OFFLINE)) {
             throw new CrmebException("暂时不支持线下支付");
         }
