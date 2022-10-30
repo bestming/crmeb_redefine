@@ -225,13 +225,19 @@
 						title: '可用余额:',
 						payStatus: 1,
 					}
-					// {
-					// 	"name": "线下支付", //offlinePayStatu：1开启线下支付；2关闭；offlinePostage：true有邮费
-					// 	"icon": "icon-yinhangqia",
-					// 	value: 'offline',
-					// 	title: '线下支付',
-					// 	payStatus: 1,
-					// },
+					,{
+						"name": "线下支付-wxm", //offlinePayStatu：1开启线下支付；2关闭；offlinePostage：true有邮费
+						"icon": "icon-yinhangqia",
+						value: 'offline',
+						title: '线下支付',
+						payStatus: 1,
+					},{
+						"name": "支付宝", //offlinePayStatu：1开启线下支付；2关闭；offlinePostage：true有邮费
+						"icon": "icon-alipay",
+						value: 'alipay',
+						title: '支付宝',
+						payStatus: 1,
+					}
 				],
 				payType: 'weixin', //支付方式
 				openType: 1, //优惠券打开方式 1=使用

@@ -161,6 +161,18 @@
 						value: 'yue',
 						title: '可用余额:',
 						number: 0
+					},{
+						"name": "线下支付-wxm", //offlinePayStatu：1开启线下支付；2关闭；offlinePostage：true有邮费
+						"icon": "icon-yinhangqia",
+						value: 'offline',
+						title: '线下支付',
+						payStatus: 1,
+					},{
+						"name": "支付宝", //offlinePayStatu：1开启线下支付；2关闭；offlinePostage：true有邮费
+						"icon": "icon-alipay",
+						value: 'alipay',
+						title: '支付宝',
+						payStatus: 1,
 					}
 				],
 				pay_close: false,
