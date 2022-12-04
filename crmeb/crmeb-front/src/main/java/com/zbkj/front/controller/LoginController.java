@@ -82,11 +82,7 @@ public class LoginController {
             @ApiImplicitParam(name="phone", value="手机号码", required = true)
     })
     public CommonResult<Object> sendCode(@RequestParam String phone){
-        if(smsService.sendCommonCode(phone)){
-            return CommonResult.success("发送成功");
-        }else{
-            return CommonResult.failed("发送失败");
-        }
+        return CommonResult.success("发送成功:" + smsService.sendCommonCode(phone));
     }
 }
 

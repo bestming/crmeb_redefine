@@ -75,10 +75,11 @@ public class SmsServiceImpl implements SmsService {
 
     /**
      * 发送短信
-     * @param phone 手机号
-     * @param tag 短信标识
+     *
+     * @param phone     手机号
+     * @param tag       短信标识
      * @param msgTempId 短信模板id
-     * @param pram 参数
+     * @param pram      参数
      * @return Boolean
      */
     private Boolean sendMessages(String phone, Integer tag, Integer msgTempId, HashMap<String, Object> pram) {
@@ -132,6 +133,7 @@ public class SmsServiceImpl implements SmsService {
 
     /**
      * 发送短信
+     *
      * @param sendSmsVo 短信参数
      */
     private Boolean sendCode(SendSmsVo sendSmsVo) {
@@ -329,8 +331,8 @@ public class SmsServiceImpl implements SmsService {
      * 3.发送短信
      */
     @Override
-    public Boolean sendCommonCode(String phone) {
-        ValidateFormUtil.isPhone(phone,"手机号码错误");
+    public String sendCommonCode(String phone) {
+        ValidateFormUtil.isPhone(phone, "手机号码错误");
         // Boolean checkAccount = onePassService.checkAccount();
         // if (!checkAccount) {
         //     throw new CrmebException("发送短信请先登录一号通账号");
@@ -351,9 +353,9 @@ public class SmsServiceImpl implements SmsService {
     /**
      * 发送支付成功短信
      *
-     * @param phone    手机号
-     * @param orderNo  订单编号
-     * @param payPrice 支付金额
+     * @param phone     手机号
+     * @param orderNo   订单编号
+     * @param payPrice  支付金额
      * @param msgTempId 短信模板id
      * @return Boolean
      */
@@ -368,9 +370,9 @@ public class SmsServiceImpl implements SmsService {
     /**
      * 发送管理员下单短信提醒
      *
-     * @param phone    手机号
-     * @param orderNo  订单编号
-     * @param realName 管理员名称
+     * @param phone     手机号
+     * @param orderNo   订单编号
+     * @param realName  管理员名称
      * @param msgTempId 短信模板id
      * @return Boolean
      */
@@ -385,9 +387,9 @@ public class SmsServiceImpl implements SmsService {
     /**
      * 发送订单支付成功管理员提醒短信
      *
-     * @param phone    手机号
-     * @param orderNo  订单编号
-     * @param realName 管理员名称
+     * @param phone     手机号
+     * @param orderNo   订单编号
+     * @param realName  管理员名称
      * @param msgTempId 短信模板id
      * @return Boolean
      */
@@ -402,9 +404,9 @@ public class SmsServiceImpl implements SmsService {
     /**
      * 发送用户退款管理员提醒短信
      *
-     * @param phone    手机号
-     * @param orderNo  订单编号
-     * @param realName 管理员名称
+     * @param phone     手机号
+     * @param orderNo   订单编号
+     * @param realName  管理员名称
      * @param msgTempId 短信模板id
      * @return Boolean
      */
@@ -418,9 +420,10 @@ public class SmsServiceImpl implements SmsService {
 
     /**
      * 发送用户确认收货管理员提醒短信
-     * @param phone 手机号
-     * @param orderNo 订单编号
-     * @param realName 管理员名称
+     *
+     * @param phone     手机号
+     * @param orderNo   订单编号
+     * @param realName  管理员名称
      * @param msgTempId 短信模板id
      */
     @Override
@@ -434,9 +437,9 @@ public class SmsServiceImpl implements SmsService {
     /**
      * 发送订单改价提醒短信
      *
-     * @param phone   手机号
-     * @param orderNo 订单编号
-     * @param price   修改后的支付金额
+     * @param phone     手机号
+     * @param orderNo   订单编号
+     * @param price     修改后的支付金额
      * @param msgTempId 短信模板id
      * @return Boolean
      */
@@ -507,9 +510,10 @@ public class SmsServiceImpl implements SmsService {
      * @param phone String 手机号码
      * @return boolean
      */
-    private Boolean sendSms(String phone, Integer tag, HashMap<String, Object> pram) {
+    private String sendSms(String phone, Integer tag, HashMap<String, Object> pram) {
         SendSmsVo sendSmsVo = new SendSmsVo();
         sendSmsVo.setMobile(phone);
+        String temp = "";
         if (tag.equals(SmsConstants.SMS_CONFIG_TYPE_VERIFICATION_CODE)) {// 验证码 特殊处理 code
             //获取短信验证码过期时间
             String codeExpireStr = systemConfigService.getValueByKey(Constants.CONFIG_KEY_SMS_CODE_EXPIRE);
@@ -528,9 +532,9 @@ public class SmsServiceImpl implements SmsService {
             //     throw new CrmebException("发送短信失败，请联系后台管理员");
             // }
             // 将验证码存入redis
-            logger.info("phone:{},code:{}",phone,code);
+            logger.info("phone:{},code:{}", phone, code);
             redisUtil.set(userService.getValidateCodeRedisKey(phone), code, Long.valueOf(codeExpireStr), TimeUnit.MINUTES);
-            return true;
+            temp = code + "";
         }
         // 以下部分实时性不高暂时还是使用队列发送
         sendSmsVo.setContent(JSONObject.toJSONString(pram));
@@ -563,7 +567,8 @@ public class SmsServiceImpl implements SmsService {
                 sendSmsVo.setTemplate(SmsConstants.SMS_CONFIG_ORDER_PAY_FALSE_TEMP_ID);
                 break;
         }
-        return commonSendSms(sendSmsVo);
+        commonSendSms(sendSmsVo);
+        return temp;
     }
 
     /**

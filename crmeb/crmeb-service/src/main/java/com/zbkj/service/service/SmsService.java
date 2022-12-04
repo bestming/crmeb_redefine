@@ -48,7 +48,7 @@ public interface SmsService {
      *
      * @param phone 手机号
      */
-    Boolean sendCommonCode(String phone);
+    String sendCommonCode(String phone);
 
     /**
      * 发送支付成功短信
